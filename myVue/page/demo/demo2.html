@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <header>
+  </header>
+  <body>
+    <style>
+      .page {
+        width: 200px;
+        height: 400px;
+        display: flex;
+      }
+      .left {
+        padding-top: 20px;
+        text-align: center;
+        width: 100px;
+        border: 1px solid #000000;
+      }
+      .content {
+        padding: 0 10px;
+      }
+      .content > p {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        background-color: bisque;
+        border: 1px solid red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .right {
+        padding-top: 20px;
+        text-align: center;
+        width: 100px;
+        border: 1px solid #000000;
+      }
+      .left > div {
+        height: 30px;
+      }
+      .right > div {
+        height: 30px;
+      }
+      .left > div:hover {
+        background-color: aquamarine;
+      }
+      .right > div:hover {
+        background-color: aquamarine;
+      }
+    </style>
+    <div class="page" id="page">
+      <div class="left" id="left">
+        <div>张三</div>
+        <div>李四</div>
+        <div>王五</div>
+      </div>
+      <div class="content">
+        <p> -> </p>
+        <p> <- </p>
+      </div>
+      <div class="right" id="right">
+        <div>赵六</div>
+        <div>田七</div>
+        <div>孙八</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let childNodes = document.querySelector("#page").childNodes
+    // 定义两个click事件
+    console.log(childNodes)
+    // 递归获取每个文本节点
+    function getTextNode(el) {
+      for(let i = 0; i < el.length; i++) {
+        if (el[i].nodeType == 3 ) {
+         // 文本节点
+         el[i].onclick = function() {
+           console.log(11)
+         }
+        } else if (el[i].nodeType == 1) {
+          getTextNode(el[i].childNodes)
+        }
+      }
+    }
+
+    getTextNode(childNodes)
+  </script>
+</html>
