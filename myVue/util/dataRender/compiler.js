@@ -7,7 +7,7 @@ function compiler(template, data) {
     // nodeType== 3文本节点； nodetype == 1 元素节点
     let nodeType = nodeChilds[i].nodeType
     if (nodeType == 3) {
-      // 文本节点
+      // 文本节点{{data}}
       let text = nodeChilds[i].nodeValue
       text = text.replace(rkuohao, function(odlVal, k) {
         // 防止类似于{{  name  }}这种情况
