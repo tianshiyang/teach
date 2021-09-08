@@ -47,12 +47,70 @@
     // Student.prototype.constructor = Student // 改变原型 构造函数指向
     // let stu = new Student("本科")
     // console.log(stu.name, stu.education) // 张三 本科
+    // console.log(stu)
     // stu.say() // person say
     // console.log(stu.__proto__.constructor === Student) // true
 
 
     // 组合继承
     // 具有call 和 prototype两个的优点
+    // function Person(name, age) {
+    //   this.name = name
+    //   this.age = age
+    // }
+    // Person.prototype.say = () => {
+    //   console.log("person say")
+    // }
+    // function Student(education, name, age) {
+    //   Person.call(this, name, age)
+    //   this.education = education
+    // }
+    // Student.prototype = new Person()
+    // Student.prototype.play = () => {
+    //   console.log("student play")
+    // }
+    // let stu = new Student("123", "zhangsan", 20)
+    // stu.say()
+    // stu.play()
+
+    // 拷贝继承
+    // function Person(sleep){
+    //   this.sleep = sleep
+    // }
+    // Person.prototype.name = "张三"
+    // Person.prototype.age = 20
+    // Person.prototype.say = () => {
+    //   console.log("person say")
+    // }
+    // function Student() {
+    // }
+    // Student.prototype.education = "本科"
+    // for (let key in Person.prototype) {
+    //   Student.prototype[key] = Person.prototype[key]
+    // }
+    // let stu = new Student()
+    // console.log(stu)
+    // stu.say()
+
+    // 直接继承
+    // 优点效率比较高
+    // function Person() {
+    // }
+    // Person.prototype.name = "张三"
+    // Person.prototype.say = () => {
+    //   console.log("person say")
+    // }
+    // function Student() {
+    // }
+    // Student.prototype = Person.prototype
+    // Student.prototype.age = 100
+    // Student.prototype.play = () => {
+    //   console.log("student play")
+    // }
+    // let stu = new Student()
+    // console.log(stu)
+
+    // 利用控对象作中介，实现继承
     function Person(name, age) {
       this.name = name
       this.age = age
@@ -60,16 +118,13 @@
     Person.prototype.say = () => {
       console.log("person say")
     }
-    function Student(education, name, age) {
-      Person.call(this, name, age)
+    let F = function() {}
+    function Student(education) {
       this.education = education
     }
-    Student.prototype = new Person()
-    Student.prototype.play = () => {
-      console.log("student play")
-    }
-    let stu = new Student("123", "zhangsan", 20)
-    stu.say()
-    stu.play()
+    F.prototype = new Person("张三", 20)
+    Student.prototype = F.prototype
+    let stu = new Student("教育")
+    console.log(stu)
   </script>
 </html>
