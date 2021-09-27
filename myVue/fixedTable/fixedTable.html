@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body></body>
+  <script>
+    class Person {
+      constructor(name, age) {
+        this.name = name
+        this.age = age
+      }
+      study() {
+        console.log(this.name + "在学习")
+      }
+    }
+    class Man extends Person {
+      constructor(name, age, sex) {
+        super(name, age)
+        this.sex = sex
+      }
+      study() {
+        console.log("man live study")
+      }
+    }
+    let zhangsan = new Person("张三", 22)
+    console.log(zhangsan.name, zhangsan.age)
+    zhangsan.study()
+    let lisi = new Man("李四", 23, "男")
+    console.log(lisi.name, lisi.sex)
+    lisi.study()
+    // console.log(zhangsan)
+    // console.log(lisi)
+  </script>
+</html>

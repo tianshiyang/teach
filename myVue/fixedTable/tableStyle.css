@@ -1,0 +1,41 @@
+
+.title {
+  position: fixed;
+}
+.table {
+  width: 400px;
+  overflow: scroll;
+  white-space: nowrap;
+}
+.right {
+  margin-left: 150px;
+  
+}
+.name{
+  background-color: aqua;
+  display: inline-block;
+  width: 150px;
+  position: fixed;
+}
+.age {
+  display: inline-block;
+  width: 150px;
+}
+.phone {
+  display: inline-block;
+  width: 150px;
+}
+.address {
+  display: inline-block;
+  width: 150px;
+  word-wrap:break-word;
+}
+.address > div{
+  word-wrap:break-word;
+  
+}
+.sex {
+  display: inline-block;
+  width: 150px;
+  margin-left: 150px;
+}
