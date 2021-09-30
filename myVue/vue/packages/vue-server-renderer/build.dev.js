@@ -6239,6 +6239,7 @@ function createCompileToFunctionFn (compile) {
     }
 
     // check cache
+    // 缓存作用：避免重复编译同个模版造成性能浪费
     var key = options.delimiters
       ? String(options.delimiters) + template
       : template;
@@ -6309,9 +6310,13 @@ function createCompileToFunctionFn (compile) {
 }
 
 /*  */
-
+/*作用： 利用偏函数的思想讲baseCompile这一基础的变异方法缓存，
+  并返回一个编程器生成器，当执行 var ref = createCompiler(baseOptions)时，
+  createCompiler会将内部定义的compile和compileToFunctions返回
+*/
 function createCompilerCreator (baseCompile) {
   return function createCompiler (baseOptions) {
+    // 内部定义compile方法
     function compile (
       template,
       options
@@ -6375,6 +6380,7 @@ function createCompilerCreator (baseCompile) {
 
     return {
       compile: compile,
+      // compileToFunctons是createCompileToFunction函数以comile为参数返回的方法
       compileToFunctions: createCompileToFunctionFn(compile)
     }
   }
@@ -6386,9 +6392,12 @@ var createCompiler = createCompilerCreator(function baseCompile (
   template,
   options
 ) {
+  // 把模版解析成抽象的语法树
   var ast = parse(template.trim(), options);
+  // 配置中有代码优化选项则会对Ast语法树进行优化
   optimize(ast, options);
   var code = generate$1(ast, options);
+  // 返回了一个编译器的生成器，也就是createCompiler，有了这个生成器生成一个指定环境指定配置下的编译器
   return {
     ast: ast,
     render: code.render,

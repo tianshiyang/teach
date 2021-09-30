@@ -97,6 +97,7 @@ Vue.prototype.$mount = function (
       }
 
       const { render, staticRenderFns } = compileToFunctions(template, {
+        // 编译的配置信息
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
         shouldDecodeNewlinesForHref,
