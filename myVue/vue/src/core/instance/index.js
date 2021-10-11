@@ -15,6 +15,7 @@ function Vue (options) {
   this._init(options)
 }
 
+debugger;
 // 定义Vue原型上的init方法（内部方法）
 initMixin(Vue)
 // 定义原型上跟数据相关的属性方法

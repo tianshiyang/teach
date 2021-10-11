@@ -528,6 +528,7 @@ function renderAttr (key, value) {
 
 /*  */
 
+// VNode构造函数
 var VNode = function VNode (
   tag,
   data,
@@ -538,9 +539,9 @@ var VNode = function VNode (
   componentOptions,
   asyncFactory
 ) {
-  this.tag = tag;
-  this.data = data;
-  this.children = children;
+  this.tag = tag; // 标签
+  this.data = data; // 数据
+  this.children = children; // 子节点
   this.text = text;
   this.elm = elm;
   this.ns = undefined;
@@ -573,15 +574,17 @@ prototypeAccessors.child.get = function () {
 
 Object.defineProperties( VNode.prototype, prototypeAccessors );
 
+// 创建注释vnode节点
 var createEmptyVNode = function (text) {
   if ( text === void 0 ) text = '';
 
   var node = new VNode();
   node.text = text;
-  node.isComment = true;
+  node.isComment = true; // 标记注释节点
   return node
 };
 
+// 创建Vnode文本节点
 function createTextVNode (val) {
   return new VNode(undefined, undefined, undefined, String(val))
 }
@@ -590,6 +593,8 @@ function createTextVNode (val) {
 // used for static nodes and slot nodes because they may be reused across
 // multiple renders, cloning them avoids errors when DOM manipulations rely
 // on their elm reference.
+
+// 克隆vnode
 function cloneVNode (vnode) {
   var cloned = new VNode(
     vnode.tag,

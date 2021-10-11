@@ -29,6 +29,8 @@ function isFalse (v) {
 /**
  * Check if value is primitive.
  */
+
+// 判断是否是原始值
 function isPrimitive (value) {
   return (
     typeof value === 'string' ||
@@ -2347,6 +2349,7 @@ function checkProp (
 // because functional components already normalize their own children.
 function simpleNormalizeChildren (children) {
   for (var i = 0; i < children.length; i++) {
+    // 子节点为数组时，进行开平操作，压成一维数组
     if (Array.isArray(children[i])) {
       return Array.prototype.concat.apply([], children)
     }
@@ -2358,7 +2361,10 @@ function simpleNormalizeChildren (children) {
 // e.g. <template>, <slot>, v-for, or when the children is provided by user
 // with hand-written render functions / JSX. In such cases a full normalization
 // is needed to cater to all possible types of children values.
+
+// 处理用户定义的render函数
 function normalizeChildren (children) {
+  // 递归调用，直到子节点是基础类型，则调用创建文本节点Vnode
   return isPrimitive(children)
     ? [createTextVNode(children)]
     : Array.isArray(children)
@@ -3535,21 +3541,24 @@ var ALWAYS_NORMALIZE = 2;
 // wrapper function for providing a more flexible interface
 // without getting yelled at by flow
 function createElement (
-  context,
-  tag,
-  data,
-  children,
+  context, // vm实例
+  tag, // 标签
+  data, // 节点相关数据，属性
+  children, // 子节点
   normalizationType,
-  alwaysNormalize
+  alwaysNormalize // 区分内部编译生成的render还是手写render
 ) {
+  // 对传入参数做处理，如果没有data，则讲第三个参数作为第四个参数使用，往上类推
   if (Array.isArray(data) || isPrimitive(data)) {
     normalizationType = children;
     children = data;
     data = undefined;
   }
+  // 根据是alwaysNormalize区分是内部编译使用的，还是用户手写render使用的
   if (isTrue(alwaysNormalize)) {
     normalizationType = ALWAYS_NORMALIZE;
   }
+  // 生成真正的VNode的方法
   return _createElement(context, tag, data, children, normalizationType)
 }
 
@@ -3560,12 +3569,14 @@ function _createElement (
   children,
   normalizationType
 ) {
+  // 1.数据对象不能是定义在Vue data属性中的响应式数据
   if (isDef(data) && isDef((data).__ob__)) {
     process.env.NODE_ENV !== 'production' && warn(
       "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
       'Always create fresh vnode data objects in each render!',
       context
     );
+    // 返回注释节点
     return createEmptyVNode()
   }
   // object syntax in v-bind
@@ -3574,9 +3585,11 @@ function _createElement (
   }
   if (!tag) {
     // in case of component :is set to falsy value
+    // 防止动态组件 :is 属性设置为false时，需要做特殊处理
     return createEmptyVNode()
   }
   // warn against non-primitive key
+  // 2. key值只能为string，number这些原始数据类型
   if (process.env.NODE_ENV !== 'production' &&
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
@@ -3597,8 +3610,10 @@ function _createElement (
     children.length = 0;
   }
   if (normalizationType === ALWAYS_NORMALIZE) {
+    // 用户定义render函数
     children = normalizeChildren(children);
   } else if (normalizationType === SIMPLE_NORMALIZE) {
+    // 模版编译生成的render函数
     children = simpleNormalizeChildren(children);
   }
   var vnode, ns;
@@ -3713,6 +3728,7 @@ function initRender (vm) {
 
 var currentRenderingInstance = null;
 
+// 引入Vue时，执行renderMixin方法，该方法定义了Vue原型上的几个方法，其中一个便是 _render函数
 function renderMixin (Vue) {
   // install runtime convenience helpers
   installRenderHelpers(Vue.prototype);
@@ -5293,7 +5309,7 @@ function Vue (options) {
   }
   this._init(options);
 }
-
+// debugger;
 initMixin(Vue);
 stateMixin(Vue);
 eventsMixin(Vue);
